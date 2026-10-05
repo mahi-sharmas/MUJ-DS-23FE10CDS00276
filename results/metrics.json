@@ -1,0 +1,10 @@
+{
+  "style_only": {
+    "accuracy": 0.743,
+    "macro_f1": 0.742
+  },
+  "style_plus_tfidf": {
+    "accuracy": 0.843,
+    "macro_f1": 0.841
+  }
+}

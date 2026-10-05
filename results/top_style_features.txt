@@ -1,0 +1,10 @@
+austen     fw_very, fw_be, fw_such, fw_her, fw_not
+bronte     p_colon, p_semicolon, type_token_ratio, fw_she, fw_nor
+conrad     fw_of, fw_on, p_dash, type_token_ratio, fw_with
+dickens    p_comma, p_semicolon, p_apostrophe, std_sent_len, fw_that
+doyle      fw_which, fw_upon, fw_we, fw_there, fw_at
+eliot      avg_sent_len, p_apostrophe, fw_should, fw_if, fw_who
+hardy      fw_she, p_exclaim, fw_her, fw_as, fw_in
+stevenson  p_comma, p_semicolon, fw_upon, fw_and, fw_my
+twain      fw_and, p_dash, std_sent_len, fw_it, fw_then
+wells      fw_the, fw_then, avg_word_len, fw_i, fw_my
