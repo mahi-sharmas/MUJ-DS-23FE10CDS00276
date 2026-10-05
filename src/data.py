@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.features import normalize_punctuation
 from src.utils import ensure_dir, load_config
 
 
@@ -35,7 +36,7 @@ def clean_text(raw_text):
     text = re.sub(r"\[Illustration[^\]]*\]", " ", text)                   # picture captions
     text = re.sub(r"^\s*(CHAPTER|Chapter|BOOK|Book|PART|Part)\b.*$", " ", text, flags=re.M)  # headings
     text = text.replace("_", "")                                            # _italics_ markers
-    return text
+    return normalize_punctuation(text)
 
 
 def chunk_words(text, size):
