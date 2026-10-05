@@ -1,0 +1,54 @@
+# ============================================================
+# Who does your writing sound like? - project configuration
+# Change settings here, not in the code.
+# ============================================================
+
+project:
+  name: "Who does your writing sound like?"
+  random_seed: 42                 # makes every run give the same results
+
+data:
+  # Project Gutenberg plain-text URL ({id} = book number)
+  source_url: "https://www.gutenberg.org/cache/epub/{id}/pg{id}.txt"
+  raw_dir: "data/raw"             # downloaded books are saved here
+  chunk_words: 500                # words per text chunk
+  max_train_chunks_per_book: 40   # cap so long books don't dominate
+  max_test_chunks_per_author: 40
+
+  # 10 novelists: 3 books to train on, 1 unseen book to test on
+  authors:
+    austen:     {name: "Jane Austen",        train: [1342, 158, 161],    test: 105}
+    dickens:    {name: "Charles Dickens",    train: [730, 1400, 786],    test: 98}
+    twain:      {name: "Mark Twain",         train: [74, 86, 1837],      test: 76}
+    doyle:      {name: "Arthur Conan Doyle", train: [244, 2097, 139],    test: 2852}
+    hardy:      {name: "Thomas Hardy",       train: [110, 107, 153],     test: 143}
+    bronte:     {name: "Charlotte Bronte",   train: [1260, 9182, 30486], test: 1028}
+    eliot:      {name: "George Eliot",       train: [145, 550, 507],     test: 6688}
+    conrad:     {name: "Joseph Conrad",      train: [5658, 2021, 219],   test: 974}
+    wells:      {name: "H. G. Wells",        train: [35, 36, 5230],      test: 159}
+    stevenson:  {name: "R. L. Stevenson",    train: [120, 421, 848],     test: 43}
+
+features:
+  name_min_count: 3               # a word must appear 3+ times to count as a name
+  name_cap_ratio: 0.9             # ...and be capitalised 90%+ of the time
+
+model:
+  tfidf_ngram_range: [2, 4]       # character n-grams of length 2-4
+  tfidf_max_features: 20000
+  style_weight: 0.1               # ~1/sqrt(91): balances style vs TF-IDF blocks
+  max_iter: 5000
+  model_path: "models/final_model.joblib"
+  results_dir: "results"
+
+llm:
+  provider: "gemini"
+  model: "gemini-2.5-flash"       # swap here if Google retires this model
+  api_key_env: "GEMINI_API_KEY"   # name of the secret, never the key itself
+  max_retries: 3
+
+benchmark:
+  n_passages: 40                  # test chunks sent to the LLM
+
+app:
+  max_words: 1500                 # longer input is cut to this
+  warn_below_words: 150           # show a "short text" warning below this
