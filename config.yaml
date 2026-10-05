@@ -42,7 +42,7 @@ model:
 
 llm:
   provider: "gemini"
-  model: "gemini-2.5-flash"       # swap here if Google retires this model
+  model: "gemini-3.8-flash"       # swap here if Google retires this model
   api_key_env: "GEMINI_API_KEY"   # name of the secret, never the key itself
   max_retries: 3
 
