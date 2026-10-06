@@ -8,7 +8,7 @@ A classical NLP model does the stylometry; an LLM turns its findings into a plai
 | **Name** | Mahi Sharma |
 | **Registration No.** | 23FE10CDS00276 |
 | **Branch** | B.Tech CSE (Data Science) |
-| **Batch** | F |
+| **Section** | D |
 | **GitHub** | [mahi-sharmas](https://github.com/mahi-sharmas) |
 | **Course** | Natural Language Processing – Project |
 
