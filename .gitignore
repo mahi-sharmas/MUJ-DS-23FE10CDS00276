@@ -3,5 +3,3 @@ models/
 __pycache__/
 .ipynb_checkpoints/
 .env
-data/chunks.csv
-data/chunks.csv
