@@ -1,11 +1,10 @@
-"""LLM integration: sends the classifier's findings to Gemini and returns
-a plain-English explanation. Prompts live in prompts/prompts.yaml."""
+"""LLM integration: sends the classifier's findings to an LLM (Groq API) and
+returns a plain-English explanation. Prompts live in prompts/prompts.yaml."""
 import os
 import time
 
 import yaml
-from google import genai
-from google.genai import types
+from groq import Groq
 
 
 def load_prompts(path="prompts/prompts.yaml"):
@@ -15,33 +14,35 @@ def load_prompts(path="prompts/prompts.yaml"):
 
 
 class Explainer:
-    """Wraps the Gemini API call for the 'explainer' prompt."""
+    """Wraps the LLM API call for the 'explainer' prompt."""
 
     def __init__(self, cfg, prompts):
-        self.model = cfg["llm"]["model"]
-        self.retries = cfg["llm"]["max_retries"]
+        llm = cfg["llm"]
+        self.model = llm["model"]
+        self.retries = llm["max_retries"]
         self.prompt = prompts["explainer"]
-        api_key = os.environ.get(cfg["llm"]["api_key_env"])
-        self.client = genai.Client(api_key=api_key) if api_key else None
+        api_key = os.environ.get(llm["api_key_env"])
+        # timeout: give up on a slow answer instead of freezing the app
+        self.client = (Groq(api_key=api_key, timeout=llm["timeout_seconds"], max_retries=0)
+                       if api_key else None)
 
     def explain(self, **facts):
-        """Fill the prompt template with the analysis facts and ask Gemini.
+        """Fill the prompt template with the analysis facts and ask the LLM.
         Returns the explanation text, or None if the LLM is unavailable."""
         if self.client is None:
             return None
-        config = types.GenerateContentConfig(
-            system_instruction=self.prompt["system"],
-            temperature=self.prompt["temperature"],
-            max_output_tokens=self.prompt["max_output_tokens"],
-        )
-        user_msg = self.prompt["user_template"].format(**facts)
+        messages = [{"role": "system", "content": self.prompt["system"]},
+                    {"role": "user", "content": self.prompt["user_template"].format(**facts)}]
         for attempt in range(self.retries):
             try:
-                response = self.client.models.generate_content(
-                    model=self.model, contents=user_msg, config=config)
-                if response.text:
-                    return response.text.strip()
-            except Exception as err:            # network/quota errors: wait, retry, then give up
+                response = self.client.chat.completions.create(
+                    model=self.model, messages=messages,
+                    temperature=self.prompt["temperature"],
+                    max_tokens=self.prompt["max_output_tokens"])
+                text = response.choices[0].message.content
+                if text:
+                    return text.strip()
+            except Exception as err:            # network/quota/timeout errors: wait, retry, then give up
                 print(f"[LLM] call failed: {err}")
                 time.sleep(2 ** attempt)        # wait 1s, 2s, 4s between tries
         return None

@@ -41,9 +41,10 @@ model:
   results_dir: "results"
 
 llm:
-  provider: "gemini"
-  model: "gemini-3.8-flash"       # swap here if Google retires this model
-  api_key_env: "GEMINI_API_KEY"   # name of the secret, never the key itself
+  provider: "groq"
+  model: "llama-3.3-70b-versatile" # swap here if the provider retires this model
+  api_key_env: "GROQ_API_KEY"     # name of the env variable, never the key itself
+  timeout_seconds: 20             # give up on a slow answer after this long
   max_retries: 3
 
 benchmark:
