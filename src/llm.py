@@ -1,6 +1,7 @@
 """LLM integration: sends the classifier's findings to Gemini and returns
 a plain-English explanation. Prompts live in prompts/prompts.yaml."""
 import os
+import time
 
 import yaml
 from google import genai
@@ -34,12 +35,13 @@ class Explainer:
             max_output_tokens=self.prompt["max_output_tokens"],
         )
         user_msg = self.prompt["user_template"].format(**facts)
-        for _ in range(self.retries):
+        for attempt in range(self.retries):
             try:
                 response = self.client.models.generate_content(
                     model=self.model, contents=user_msg, config=config)
                 if response.text:
                     return response.text.strip()
-            except Exception as err:            # network/quota errors: retry, then give up
+            except Exception as err:            # network/quota errors: wait, retry, then give up
                 print(f"[LLM] call failed: {err}")
+                time.sleep(2 ** attempt)        # wait 1s, 2s, 4s between tries
         return None
