@@ -42,7 +42,7 @@ model:
 
 llm:
   provider: "groq"
-  model: "llama-3.3-70b-versatile" # swap here if the provider retires this model
+  model: "openai/gpt-oss-120b"     # swap here if the provider retires this model
   api_key_env: "GROQ_API_KEY"     # name of the env variable, never the key itself
   timeout_seconds: 20             # give up on a slow answer after this long
   max_retries: 3
