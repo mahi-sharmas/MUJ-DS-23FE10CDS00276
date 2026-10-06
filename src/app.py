@@ -78,7 +78,7 @@ def build_app():
         inputs=gr.Textbox(lines=12, label="Paste your writing (200+ words works best)"),
         outputs=[gr.Label(num_top_classes=3, label="Closest authors"), gr.Markdown(label="Why")],
         title="Who does your writing sound like?",
-        description="Style-based authorship attribution (classical NLP) + an AI explanation (Gemini).",
+        description="Style-based authorship attribution (classical NLP) + an AI explanation (LLM via Groq).",
         flagging_mode="never",
     )
 
