@@ -26,7 +26,7 @@ Your text ──► style features ──► Logistic Regression ──► close
 1. **Data** (`src/data.py`): 40 public-domain novels from Project Gutenberg, 10 authors × 4 books.
    Books are cleaned (licence text, chapter headings, transcription quirks like curly quotes removed) and cut into 500-word chunks.
 2. **Features** (`src/features.py`): 91 style measurements per chunk: sentence length, word length,
-   vocabulary richness, punctuation rates, and frequencies of 77 *function words* ("the", "upon", "very"…),
+   vocabulary richness, punctuation rates, and frequencies of 78 *function words* ("the", "upon", "very"…),
    which authors use unconsciously regardless of topic. Character names are masked so the model can't cheat.
 3. **Model** (`src/train.py`): Logistic Regression on the style features + character 2–4-gram TF-IDF.
 4. **LLM explanation** (`src/llm.py`): the model's top 3 style habits are sent to an LLM via the Groq API,
