@@ -168,8 +168,8 @@ HERO = (
     + "<p class='kicker'>A stylometry reading room</p>"
       "<h1>Who does your writing <em>sound like?</em></h1>"
       "<div class='rule'><span></span>❦<span></span></div>"
-      "<p class='sub'>Pour a cup of tea, paste a page of your writing, and meet the classic novelist "
-      "whose voice is closest to yours.</p></div>")
+      "<p class='sub'>Paste 200 words or more, and see which famous author you write like, "
+      "and why.</p></div>")
 
 CSS = """
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
@@ -298,7 +298,7 @@ def build_app():
         gr.HTML(HERO)
         with gr.Row(equal_height=False):
             with gr.Column(scale=1, elem_classes="glass"):
-                gr.HTML("<div class='panel-head'><h2>Your manuscript</h2><span>Page i</span></div>")
+                gr.HTML("<div class='panel-head'><h2>Your page</h2><span>Page i</span></div>")
                 text = gr.Textbox(lines=12, max_lines=22, show_label=False, elem_id="manuscript",
                                   placeholder="Paste 200 or more words: an essay, a story, a long letter...")
                 count = gr.HTML(word_count_note(""))
@@ -310,7 +310,7 @@ def build_app():
                     find_btn = gr.Button("Find my author", elem_id="find-btn", scale=2)
 
             with gr.Column(scale=1, elem_classes="glass"):
-                gr.HTML("<div class='panel-head'><h2>Your kindred author</h2><span>Ex libris</span></div>")
+                gr.HTML("<div class='panel-head'><h2>You write like....</h2><span>Ex libris</span></div>")
                 shelf = gr.HTML(EMPTY_SHELF, elem_classes="inner-frame")
                 why = gr.Markdown(EMPTY_WHY, elem_id="why")
 
